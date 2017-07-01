@@ -9,10 +9,9 @@ import android.arch.persistence.room.PrimaryKey
  */
 @Entity
 class Task {
-    @PrimaryKey
-    val id: String? = null
-    val name: String? = null
-    val mDescription: String? = null
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+    var name: String = ""
     @Ignore
-    val mCompleted: Boolean = false
+    var mCompleted: Boolean = false
 }
