@@ -12,7 +12,7 @@ import android.arch.persistence.room.Query
 @Dao
 interface TaskDao {
     @Query("SELECT * FROM Task")
-    fun findAllTasks(): List<Task>
+    fun findAllTasks(): MutableList<Task>
 
     @Insert(onConflict = REPLACE)
     fun insertTask(task: Task)

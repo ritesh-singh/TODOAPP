@@ -12,7 +12,7 @@ import com.example.riteshkumarsingh.todoapp.ui.view.MainView
 class MainActivityPresenter(view: MainView) : BasePresenter {
     private val view = view
     private var appDB: AppDatabase? = null
-    private var asyncTaskGetAllTask: AsyncTask<Void, Void, List<Task>>? = null
+    private var asyncTaskGetAllTask: AsyncTask<Void, Void, MutableList<Task>>? = null
     private var asyncTaskInsertDataInDb: AsyncTask<Void, Void, Void>? = null
 
     init {
@@ -21,13 +21,13 @@ class MainActivityPresenter(view: MainView) : BasePresenter {
 
 
     fun getAllTasks() {
-        asyncTaskGetAllTask = object : AsyncTask<Void, Void, List<Task>>() {
-            override fun doInBackground(vararg params: Void): List<Task>? {
+        asyncTaskGetAllTask = object : AsyncTask<Void, Void, MutableList<Task>>() {
+            override fun doInBackground(vararg params: Void): MutableList<Task>? {
                 return appDB?.taskDao()
                         ?.findAllTasks()
             }
 
-            override fun onPostExecute(result: List<Task>?) {
+            override fun onPostExecute(result: MutableList<Task>?) {
                 super.onPostExecute(result)
                 view.onGetAllTaskSuccess(result)
             }
@@ -46,7 +46,7 @@ class MainActivityPresenter(view: MainView) : BasePresenter {
 
             override fun onPostExecute(result: Void?) {
                 super.onPostExecute(result)
-                view.onInsertTaskSuccess()
+                view.onInsertTaskSuccess(task)
             }
         }
         asyncTaskInsertDataInDb?.execute()

@@ -2,6 +2,7 @@ package com.example.riteshkumarsingh.todoapp.ui.view
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.riteshkumarsingh.todoapp.R
 import com.example.riteshkumarsingh.todoapp.base.BaseActivity
 import com.example.riteshkumarsingh.todoapp.data.source.local.Task
 import com.example.riteshkumarsingh.todoapp.ui.presenter.MainActivityPresenter
+import com.example.riteshkumarsingh.todoapp.ui.view.adapter.RecyclerViewAdapter
 
 class MainActivity : BaseActivity(), MainView {
 
@@ -19,6 +21,7 @@ class MainActivity : BaseActivity(), MainView {
     var editText: EditText? = null
     var recyclerView: RecyclerView? = null
     var addButton: Button? = null
+    var rvAdapter:RecyclerViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,7 @@ class MainActivity : BaseActivity(), MainView {
         addButton?.setOnClickListener(View.OnClickListener {
             var text = editText?.text.toString()
             if (!(TextUtils.isEmpty(text) || text == null)) {
-                var task:Task = Task()
+                var task: Task = Task()
                 task.name = text
                 mPresenter?.insertDataInDb(task)
             }
@@ -43,16 +46,21 @@ class MainActivity : BaseActivity(), MainView {
     }
 
 
-    override fun onGetAllTaskSuccess(tasks: List<Task>?) {
-
+    override fun onGetAllTaskSuccess(tasks: MutableList<Task>?) {
+        rvAdapter = RecyclerViewAdapter(tasks)
+        recyclerView?.adapter = rvAdapter
+        recyclerView?.layoutManager = LinearLayoutManager(this)
     }
 
 
-    override fun onInsertTaskSuccess() {
+    override fun onInsertTaskSuccess(task:Task) {
+        editText?.clearFocus()
+        editText?.setText("")
+        rvAdapter?.addItem(task)
     }
 
     private fun initUI() {
-        val task = mPresenter?.getAllTasks()
+        mPresenter?.getAllTasks()
     }
 
 

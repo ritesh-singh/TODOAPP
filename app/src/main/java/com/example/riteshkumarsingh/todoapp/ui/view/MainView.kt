@@ -8,6 +8,6 @@ import com.example.riteshkumarsingh.todoapp.data.source.local.Task
  */
 interface MainView {
     fun getContext():Context
-    fun onGetAllTaskSuccess(tasks:List<Task>?)
-    fun onInsertTaskSuccess():Unit
+    fun onGetAllTaskSuccess(tasks:MutableList<Task>?)
+    fun onInsertTaskSuccess(task:Task):Unit
 }
