@@ -13,6 +13,7 @@ import com.example.riteshkumarsingh.todoapp.base.BaseActivity
 import com.example.riteshkumarsingh.todoapp.data.source.local.Task
 import com.example.riteshkumarsingh.todoapp.ui.presenter.MainActivityPresenter
 import com.example.riteshkumarsingh.todoapp.ui.view.adapter.RecyclerViewAdapter
+import java.util.*
 
 class MainActivity : BaseActivity(), MainView {
 
@@ -37,9 +38,11 @@ class MainActivity : BaseActivity(), MainView {
     private fun initListeners() {
         addButton?.setOnClickListener(View.OnClickListener {
             var text = editText?.text.toString()
-            if (!(TextUtils.isEmpty(text) || text == null)) {
+            if (!(TextUtils.isEmpty(text))) {
                 var task: Task = Task()
                 task.name = text
+                task.createdOn = Date()
+                task.mCompleted = false
                 mPresenter?.insertDataInDb(task)
             }
         })

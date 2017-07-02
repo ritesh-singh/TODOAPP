@@ -19,10 +19,13 @@ class RecyclerViewAdapter(task: MutableList<Task>?) : RecyclerView.Adapter<Recyc
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val task = tasks?.get(position)
         holder?.name?.text = task?.name
+        if (task?.mCompleted == null) holder?.checkBox?.isChecked = false else
+            holder?.checkBox?.isChecked = task?.mCompleted
+        holder?.creationDateView?.text = task?.createdOn?.toString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.recycler_view_item,parent,false)
+        val view = LayoutInflater.from(parent?.context).inflate(R.layout.recycler_view_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -31,12 +34,13 @@ class RecyclerViewAdapter(task: MutableList<Task>?) : RecyclerView.Adapter<Recyc
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        var name:TextView = itemView?.findViewById(R.id.name) as TextView
-        var checkBox:CheckBox = itemView?.findViewById(R.id.checkbox) as CheckBox
+        var name: TextView = itemView?.findViewById(R.id.name) as TextView
+        var checkBox: CheckBox = itemView?.findViewById(R.id.checkbox) as CheckBox
+        var creationDateView: TextView = itemView?.findViewById(R.id.creation_date) as TextView
     }
 
-    fun  addItem(task: Task) {
+    fun addItem(task: Task) {
         tasks?.add(task)
-        notifyItemInserted(itemCount-1)
+        notifyItemInserted(itemCount - 1)
     }
 }
